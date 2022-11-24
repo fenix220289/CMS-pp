@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Section;
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class SectionController extends Controller
 {
@@ -14,7 +15,9 @@ class SectionController extends Controller
      */
     public function index()
     {
-        //
+        $sections = Section::paginate(10);
+
+        return view('dashboard.sections.list', compact('sections')); //
     }
 
     /**
@@ -24,7 +27,9 @@ class SectionController extends Controller
      */
     public function create()
     {
-        //
+            $posts = Post::all();
+            return view('dashboard.sections.create',compact('posts')); 
+        
     }
 
     /**
@@ -35,7 +40,26 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $section = new Section();
+        $data = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'description' => 'required',
+            'post_id' => 'required'
+        ]);
+
+        $data['user_id'] = auth()->user()->id;
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image');
+            $filename = $request->file('image')->getClientOriginalName();
+            $data['image']->move(public_path('images'), $filename);
+            $data['image'] = $filename;
+        }
+
+        $section = Section::create($data);
+
+        return redirect()->route('dashboard.sections')->with('message', 'section created successfully');
     }
 
     /**
@@ -57,7 +81,8 @@ class SectionController extends Controller
      */
     public function edit(Section $section)
     {
-        //
+        $data = Section::find($section->id);
+        return view('dashboard.sections.edit', ['section' => $data]);
     }
 
     /**
@@ -80,6 +105,11 @@ class SectionController extends Controller
      */
     public function destroy(Section $section)
     {
-        //
+        if($section->id) {
+            $data = Section::find($section->id);
+            $data->delete();
+            return redirect()->route('dashboard.sections')->with('message', 'Section deleted successfully');
+        }
+        return redirect()->route('dashboard.sections')->with('message', 'Section not found');
     }
 }

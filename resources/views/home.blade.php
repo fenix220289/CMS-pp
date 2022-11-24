@@ -1,9 +1,9 @@
 <x-guest-layout>
-    
+
     <header class="hero " >
         <nav class="nav container">
             <div class="nav_logo">
-                <h2 class="nav_title">CODELAB<h2> 
+                <h2 class="nav_title">CODELAB<h2>
             </div>
             <ul class="nav_link nav_link--menu">
                 <li class="nav_items">
@@ -36,44 +36,32 @@
                 <img alt="" src="{{ Vite::asset('resources/img/menu.svg') }}" class="nav_img">
             </div>
         </nav>
-
         <section class="hero_container container">
-         <h1 class="hero_tittle">¿Quieres Posicionarte en el Mercado Digital?</h1>
-         <p class="hero_paragraph">Nuestra empresa tiene personal calificado en el desarrollo web , app y Marketing Digital para plasmar tus ideas,
-         lograr las metas y objetivos propuestos por tu organización o empresa.</p>
-         <a href="#" class="cta">Mas Información</a>   
+            @foreach($hero->sections as $hero)
+                <h1 class="hero_title">{{ $hero->title }}</h1>
+                <p class="hero_paragraph">{{ $hero->description }}</p>
+                <a href="#" class="cta">{!! $hero->content !!}</a>
+            @endforeach
         </section>
     </header>
 
     <main>
         <section class="container about">
-            <h2 class="subtitle">¿Que quieres hacer para mejorar tu negocio?</h2>
-            <p class="about_paragraph">¿Deseas realizar un programa para el manejo de información de tu empresa, Marketing en Redes sociales, Mejorar tus diseños? o ¿Quieres un Sitio web para dar a conocer tu empresa ? Al elegirnos te ofrecemos</p>
-
+            @foreach($advantage->sections as $advantage)
+                <h2 class="subtitle">{{ $advantage->title }}</h2>
+                <p class="about_paragraph">{{ $advantage->content }}</p>
+            @endforeach
             <div class="about_main">
-                <article class="about_icons">
-                    <img src="{{ Vite::asset('resources/img/verificacion.svg') }}" class="about_icon"/>
-                    <h3 class="about_title">Personal Calificado</h3>
-                    <p class="about_paragrah">Todo nuestro equipo esta conformado por personal calificado en Programación, Marketing, Diseño Gráfico con herramientas de ultima generación.
-                    </p>
-                </article>
-
-                <article class="about_icons">
-                    <img src="{{ Vite::asset('resources/img/device.svg') }}" class="about_icon"/>
-                    <h3 class="about_title">Compatibilidad</h3>
-                    <p class="about_paragrah">Alto grado de compatibilidad con todos los dispositivos (tablets, Mac, Android, entre otros), sin que se vea afectado el diseño o sus funcionalidades.
-                    </p>
-                </article>
-                
-                <article class="about_icons">
-                    <img src="{{ Vite::asset('resources/img/tiempo.svg') }}" class="about_icon"/>
-                    <h3 class="about_title">Responsabilidad</h3>
-                    <p class="about_paragrah">Nuestro motor principal es la responsabilidad y puntualidad en la entrega de proyectos solicitados por las empresas.
-                    </p>
-                </article>
+                @foreach($advantages->sections as $advantage)
+                    <article class="about_icons">
+                        <img src="{{ asset('/images/' . $advantage->image) }}" class="about_icon"/>
+                        <h3 class="about_title">{{ $advantage->title }}</h3>
+                        <p class="about_paragrah">{!! $advantage->content !!}</p>
+                    </article>
+                @endforeach
             </div>
-        </section> 
-        
+        </section>
+
         <section class="knowledge">
             <div class="container knowledge_container ">
                 <div class="knowledge_texts">
@@ -85,7 +73,7 @@
                 <figure class="knowledge_picture">
                     <img class="knowledge_img" src="{{ Vite::asset('resources/img/mac.png.png') }}"/>
                 </figure>
-                
+
             </div>
         </section>
 
@@ -96,7 +84,7 @@
                 <div class="price_element">
                     <p class="price_name">Administraciòn de Redes Sociales</p>
                     <h3 class="price_price">Precio de Promoción</h3>
-                
+
 
                 <div class="price_items">
                     <p class="price_features">Instagram</p>
@@ -104,15 +92,15 @@
                     <p class="price_features">Tiktok</p>
                     <p class="price_features">Twiter</p>
                 </div>
-            
+
                 <a href="#" class="price_cta">Solicitar Oferta</a>
-            
+
             </div>
 
             <div class="price_element price_element--best">
                 <p class="price_name">Sistema Web</p>
                 <h3 class="price_price">Precio de Promoción</h3>
-            
+
 
                 <div class="price_items">
                     <p class="price_features">Alojamiento Web</p>
@@ -120,14 +108,14 @@
                     <p class="price_features">Mantenimiento</p>
                     <p class="price_features">hosting .com</p>
                 </div>
-            
+
                 <a href="#" class="price_cta">Solicitar Oferta</a>
             </div>
 
             <div class="price_element">
                 <p class="price_name">Programas Empresariales</p>
                 <h3 class="price_price">Precio de Promoción</h3>
-            
+
 
                 <div class="price_items">
                     <p class="price_features">Programas (Facturaciòn, inventarios,Registros)</p>
@@ -135,12 +123,12 @@
                     <p class="price_features">Sistemas Web App</p>
                     <p class="price_features">otros...</p>
                 </div>
-            
+
                 <a href="#" class="price_cta">Solicitar Oferta</a>
             </div>
-        
+
         </section>
-        
+
         <section class="advantage">
             <div class="advantage__container container">
                 <img src="{{ Vite::asset('resources/img/leftarrow.svg') }}" class="advantage__arrow" id="before"/>
@@ -287,5 +275,5 @@
     <script src="./js/slider.js"></script>
     <script src="./js/questions.js"></script>
     <script src="./js/menu.js"></script>
-    
+
 </x-guest-layout>

@@ -19,6 +19,7 @@ class Section extends Model
         'content',
         'description',
         'image',
+        'post_id',
     ];
    
     public function posts(){

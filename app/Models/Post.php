@@ -17,8 +17,9 @@ class Post extends Model
         'title',
         'content',
         'image',
+        'user_id',
     ];
-   
+
     public function sections(){
         return $this->hasMany(Section::class);
     }

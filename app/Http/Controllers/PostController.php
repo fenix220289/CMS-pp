@@ -14,10 +14,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::paginate(10);
 
-        return view('dashboard.posts', compact('posts'));
-    
+        return view('dashboard.posts.list', compact('posts'));
+
         //
     }
 
@@ -28,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.posts.crea');
     }
 
     /**
@@ -39,7 +39,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post();
+        $data = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        $data['user_id'] = auth()->user()->id;
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image');
+            $filename = $request->file('image')->getClientOriginalName();
+            $data['image']->move(public_path('images'), $filename);
+            $data['image'] = $filename;
+        }
+
+        $post = Post::create($data);
+
+        return redirect()->route('dashboard.posts')->with('message', 'Post created successfully');
     }
 
     /**
@@ -50,7 +67,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
     }
 
     /**
@@ -61,7 +77,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $data = Post::find($post->id);
+        
+        return view('dashboard.posts.edit', ['post' => $data]);
     }
 
     /**
@@ -84,6 +102,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if($post->id) {
+            $data = Post::find($post->id);
+            $data->delete();
+            return redirect()->route('dashboard.posts')->with('message', 'Post deleted successfully');
+        }
+        return redirect()->route('dashboard.posts')->with('message', 'Post not found');
     }
 }
